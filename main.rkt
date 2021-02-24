@@ -23,7 +23,83 @@
 ;; See the current version of the racket style guide here:
 ;; http://docs.racket-lang.org/style/index.html
 
-;; Code here
+
+
+(require http-client)
+
+(define current-qweather-key (make-parameter ""))
+(define current-qweather-public-id (make-parameter ""))
+
+(define geoapi-qweather
+  (http-connection "https://geoapi.qweather.com"
+                   (hasheq 'Content-Type "application/json" 'Accept "application/json")
+                   (hasheq)))
+
+(define devapi-qweather
+  (http-connection "https://geoapi.qweather.com"
+                   (hasheq 'Content-Type "application/json" 'Accept "application/json")
+                   (hasheq)))
+
+(define (city/lookup location)
+  (http-get geoapi-qweather
+            #:path "/v2/city/lookup"
+            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+  )
+
+(define (weather/now location)
+  (http-get devapi-qweather
+            #:path "/v7/weather/now"
+            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+  )
+
+(define (weather/3d location)
+  (http-get geoapi-qweather
+            #:path "/v7/weather/3d"
+            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+  )
+
+(define (weather/7d location)
+  (http-get geoapi-qweather
+            #:path "/v7/weather/7d"
+            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+  )
+
+(define (weather/10d location)
+  (http-get geoapi-qweather
+            #:path "/v7/weather/10d"
+            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+  )
+
+(define (weather/15d location)
+  (http-get geoapi-qweather
+            #:path "/v7/weather/15d"
+            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
