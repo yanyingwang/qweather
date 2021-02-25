@@ -28,52 +28,57 @@
 (require http-client)
 
 (define current-qweather-key (make-parameter ""))
-(define current-qweather-public-id (make-parameter ""))
+;; (define current-qweather-public-id (make-parameter ""))
 
 (define geoapi-qweather
   (http-connection "https://geoapi.qweather.com"
-                   (hasheq 'Content-Type "application/json" 'Accept "application/json")
-                   (hasheq)))
-
+                   (hasheq)
+                   ;; (hasheq 'Content-Type "application/x-www-form-urlencoded")
+                   (hasheq 'key (current-qweather-key))))
 (define devapi-qweather
-  (http-connection "https://geoapi.qweather.com"
-                   (hasheq 'Content-Type "application/json" 'Accept "application/json")
-                   (hasheq)))
+  (http-connection "https://devapi.qweather.com"
+                   (hasheq)
+                   (hasheq 'key (current-qweather-key))))
+(define api-qweather
+  (http-connection "https://devapi.qweather.com"
+                   (hasheq)
+                   (hasheq 'key (current-qweather-key))))
+
+
 
 (define (city/lookup location)
   (http-get geoapi-qweather
             #:path "/v2/city/lookup"
-            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
-  )
+            #:data (hasheq 'location location )))
 
 (define (weather/now location)
   (http-get devapi-qweather
             #:path "/v7/weather/now"
-            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+            #:data (hasheq 'location location ))
   )
 
 (define (weather/3d location)
   (http-get geoapi-qweather
             #:path "/v7/weather/3d"
-            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+            #:data (hasheq 'location location ))
   )
 
 (define (weather/7d location)
   (http-get geoapi-qweather
             #:path "/v7/weather/7d"
-            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+            #:data (hasheq 'location location ))
   )
 
 (define (weather/10d location)
   (http-get geoapi-qweather
             #:path "/v7/weather/10d"
-            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+            #:data (hasheq 'location location ))
   )
 
 (define (weather/15d location)
   (http-get geoapi-qweather
             #:path "/v7/weather/15d"
-            #:data (hasheq 'location "shanghai" 'key (current-qweather-key)))
+            #:data (hasheq 'location location ))
   )
 
 
