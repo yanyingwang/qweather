@@ -108,7 +108,7 @@ For example,
 @racket[(current-qweather-range "cn")].}
 @item{And for this case, @linebreak[]
 the avaiable values of @racket[current-qweather-range] should be @linebreak[]
-@litchar{world} and @litchar{cn} because of @linebreak[]
+@litchar{world} and @litchar{cn} because @linebreak[]
 the available values of @racket[range] argument of @racket[city/lookup] is @linebreak[]
 @litchar{world} and @litchar{cn}.}
 ]
