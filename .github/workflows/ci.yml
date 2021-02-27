@@ -17,7 +17,8 @@ jobs:
           variant: ${{ matrix.racket-variant }}
           version: ${{ matrix.racket-version }}
       - name: Installing qweather and its dependencies
-        run: raco pkg install --no-docs --auto --name qweather
+        # run: raco pkg install --no-docs --auto --name qweather
+        run: raco pkg install --auto --name qweather
       - name: Compiling qweather and building its docs
         run: raco setup --check-pkg-deps --unused-pkg-deps qweather
       - name: Testing qweather

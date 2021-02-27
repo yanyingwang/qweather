@@ -2,8 +2,7 @@
 @require[@for-label[qweather
                     racket/base
                     racket/pretty
-                    http-client
-                    (only-in gregor now)]]
+                    http-client]]
 
 @title{qweather}
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
@@ -22,7 +21,6 @@ Racket wrapper of Qweather(和风天气) API.
 @subsection{Setup Qweather API key}
 @codeblock|{
 -> (current-qweather-key "your-qweather-app-key")
--> (now)
 }|
 @subsection{Get the location id of 新郑 city}
 @codeblock|{
