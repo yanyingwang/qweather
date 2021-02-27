@@ -2,7 +2,8 @@
 @require[@for-label[qweather
                     racket/base
                     racket/pretty
-                    http-client]]
+                    http-client
+                    gregor]]
 
 @title{qweather}
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
