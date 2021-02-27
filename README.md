@@ -1,8 +1,8 @@
 qweather
 ========
-README text here.
-https://dev.qweather.com/docs/api/weather/
 
+check docs at: https://yanyingwang.github.io/qweather/
 
 名词解释： https://dev.qweather.com/docs/start/glossary/
-api： https://dev.qweather.com/docs/api/
+
+Qweather official API： https://dev.qweather.com/docs/api/
