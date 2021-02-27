@@ -114,7 +114,7 @@ the available values of @racket[range] argument of @racket[city/lookup] is @line
 ]
 }
 
-@subsection[#:tag "wrapped-apis"]{Wrappered APIs}
+@subsection[#:tag "wrapped-apis"]{Wrapped APIs}
 @subsubsection{Searching cities}
 @defmodule[qweather/city]
 The official doc: @url{https://dev.qweather.com/docs/api/geo/}
