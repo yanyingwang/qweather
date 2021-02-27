@@ -22,7 +22,7 @@ Racket wrapper of Qweather(和风天气) API.
 @codeblock|{
 -> (current-qweather-key "your-qweather-app-key")
 }|
-@subsection{Get the location id of 新郑 city}
+@subsection{Get the location id of a city}
 @codeblock|{
 -> (pretty-print
      (http-response-body
@@ -48,7 +48,7 @@ Racket wrapper of Qweather(和风天气) API.
           #hasheq((license . ("commercial license"))
                   (sources . ("qweather.com")))))
 }|
-@subsection{Get the weather forecasting of 新郑 city}
+@subsection{Get the weather forecasting of a city}
 @codeblock|{
 -> (pretty-print
      (http-response-body
