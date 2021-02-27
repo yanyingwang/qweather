@@ -106,7 +106,7 @@ For example,
 @item{@racket[(city/lookup "xinzheng")] is same as @linebreak[]
 @racket[(city/lookup "xinzheng" #:range "cn")] if I set parameter @linebreak[]
 @racket[(current-qweather-range "cn")].}
-@item{And for the case, @linebreak[]
+@item{And for this case, @linebreak[]
 the avaiable values of @racket[current-qweather-range] should be @linebreak[]
 @litchar{world} and @litchar{cn} because of @linebreak[]
 the available values of @racket[range] argument of @racket[city/lookup] is @linebreak[]
