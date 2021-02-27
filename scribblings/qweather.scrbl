@@ -8,7 +8,7 @@
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
 @defmodule[qweather]
 @section-index["timable"]
-Racket wrapper for Qweather/和风天气 open API. @linebreak[]
+Racket wrapper of Qweather/和风天气 open API. @linebreak[]
 Check its official API doc at @url{https://dev.qweather.com/docs/start/}.
 
 @(table-of-contents)
