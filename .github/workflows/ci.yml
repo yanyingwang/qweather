@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        racket-version: ["stable", "current"]
-        racket-variant: ["BC", "CS"]
+        racket-version: ["8.0"]
+        racket-variant: ["CS"]
     steps:
       - uses: actions/checkout@v2
       - uses: Bogdanp/setup-racket@v0.12
