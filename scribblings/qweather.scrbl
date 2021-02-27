@@ -116,7 +116,7 @@ http-response?]
 
 
 
-@subsection{Weather forecast}
+@subsection{Weather forecasting}
 @defmodule[qweather/forecast]
 The official doc: @url{https://dev.qweather.com/docs/api/weather/}
 
