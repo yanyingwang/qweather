@@ -100,7 +100,7 @@ For using a business version of Qweather account, you need to set this parameter
 )]{
 @itemlist[
 @item{Those parameters are used to controller the default values of procedures arguments described from @secref["wrapped-apis"].}
-@item{The available values of those parameters are very much dictated by the correspondingly available values of procedure arguments specified in @secref["wrapped-apis"].}
+@item{The available values of those parameters are very much dictated by the correspondingly available values of procedure arguments that specified at @secref["wrapped-apis"].}
 ]
 For example,
 @itemlist[
