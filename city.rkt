@@ -1,15 +1,16 @@
 #lang at-exp racket/base
 
 (require http-client
+         (file "private/params.rkt")
          (file "private/core.rkt"))
 (provide (all-defined-out))
 
 (define (city/lookup location
                      #:adm [adm ""]
-                     #:range [range "world"]
-                     #:number [number 10]
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"])
+                     #:range [range (current-qweather-range)]
+                     #:number [number (current-qweather-number)]
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)])
   (http-get (geoapi-qweather)
             #:path "/city/lookup"
             #:data (hasheq 'location location
@@ -19,10 +20,10 @@
                            'gzip gzip
                            'lang lang)))
 
-(define (city/top #:range [range "world"]
-                  #:number [number 10]
-                  #:gzip [gzip "y"]
-                  #:lang [lang "en"])
+(define (city/top #:range [range (current-qweather-range)]
+                  #:number [number (current-qweather-number)]
+                  #:gzip [gzip (current-qweather-gzip)]
+                  #:lang [lang (current-qweather-lang)])
   (http-get (geoapi-qweather)
             #:path "/city/top"
             #:data (hasheq 'range range
@@ -33,9 +34,9 @@
 (define (poi/lookup location
                     #:type [type "scenic"]
                     #:city [city ""]
-                    #:number [number 10]
-                    #:gzip [gzip "y"]
-                    #:lang [lang "en"])
+                    #:number [number (current-qweather-number)]
+                    #:gzip [gzip (current-qweather-gzip)]
+                    #:lang [lang (current-qweather-lang)])
   (http-get (geoapi-qweather)
             #:path "/poi/lookup"
             #:data (hasheq 'location location
@@ -49,9 +50,9 @@
 (define (poi/range location
                     #:type [type "scenic"]
                     #:radius [radius 5]
-                    #:number [number 10]
-                    #:gzip [gzip "y"]
-                    #:lang [lang "en"])
+                    #:number [number (current-qweather-number)]
+                    #:gzip [gzip (current-qweather-gzip)]
+                    #:lang [lang (current-qweather-lang)])
   (http-get (geoapi-qweather)
             #:path "/poi/range"
             #:data (hasheq 'location location

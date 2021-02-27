@@ -3,22 +3,23 @@
 
 
 (require http-client
+         (file "private/params.rkt")
          (file "private/core.rkt"))
 (provide (all-defined-out))
 
 
 (define (warning/now location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"])
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)])
   (http-get (api-qweather)
             #:path "/warning/now"
             #:data (hasheq 'location location
                            'gzip gzip
                            'lang lang)))
 
-(define (warning/list #:range [range "cn"]
-                      #:gzip [gzip "y"])
+(define (warning/list #:gzip [gzip (current-qweather-gzip)]
+                      #:lang [lang (current-qweather-lang)])
   (http-get (api-qweather)
-            #:path "/warning/now"
-            #:data (hasheq 'range range
-                           'gzip gzip)))
+            #:path "/warning/list"
+            #:data (hasheq 'gzip gzip
+                           'lang lang)))

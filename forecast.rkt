@@ -1,12 +1,13 @@
 #lang at-exp racket/base
 
 (require http-client
+         (file "private/params.rkt")
          (file "private/core.rkt"))
 (provide (all-defined-out))
 
 (define (weather/now location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "/weather/now"
@@ -16,8 +17,8 @@
                            'unit unit)))
 
 (define (weather/3d location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                    #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "/weather/now"
@@ -27,8 +28,8 @@
                            'unit unit)))
 
 (define (weather/7d location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                    #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "/weather/now"
@@ -38,8 +39,8 @@
                            'unit unit)))
 
 (define (weather/10d location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "/weather/now"
@@ -49,8 +50,8 @@
                            'unit unit)))
 
 (define (weather/15d location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "/weather/now"
@@ -60,8 +61,8 @@
                            'unit unit)))
 
 (define (weather/24h location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "weather/24h"
@@ -71,8 +72,8 @@
                            'unit unit)))
 
 (define (weather/72h location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "weather/72h"
@@ -82,8 +83,8 @@
                            'unit unit)))
 
 (define (weather/168h location
-                     #:gzip [gzip "y"]
-                     #:lang [lang "en"]
+                      #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)]
                      #:unit [unit "m"])
   (http-get (api-qweather)
             #:path "weather/168h"
