@@ -3,7 +3,7 @@
                     racket/base
                     racket/pretty
                     http-client
-                    gregor]]
+                    (only-in gregor now)]]
 
 @title{qweather}
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
