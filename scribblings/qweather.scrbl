@@ -125,14 +125,14 @@ The official doc: @url{https://dev.qweather.com/docs/api/geo/}
                       [#:number number number? (current-qweather-number)]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)])
-http-response?]
+http-response]
 
 
 @defproc[(city/top [#:range range (or/c "world" "cn") (current-qweather-range)]
                    [#:number number number? (current-qweather-number)]
                    [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                    [#:lang lang string? (current-qweather-lang)])
-http-response?]
+http-response]
 
 
 @defproc[(poi/lookup [location string?]
@@ -141,7 +141,7 @@ http-response?]
                       [#:number number number? (current-qweather-number)]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)])
-http-response?]
+http-response]
 
 
 @defproc[(poi/range [location string?]
@@ -150,7 +150,7 @@ http-response?]
                     [#:number number number? (current-qweather-number)]
                     [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                     [#:lang lang string? (current-qweather-lang)])
-http-response?]
+http-response]
 
 
 
@@ -162,29 +162,29 @@ The official doc: @url{https://dev.qweather.com/docs/api/weather/}
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)]
                       [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 
 @deftogether[(
 @defproc[(weather/3d [location string?]
                      [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                      [#:lang lang string? (current-qweather-lang)]
                      [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 @defproc[(weather/7d [location string?]
                      [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                      [#:lang lang string? (current-qweather-lang)]
                      [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 @defproc[(weather/10d [location string?]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)]
                       [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 @defproc[(weather/15d [location string?]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)]
                       [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 )]
 
 @deftogether[(
@@ -192,17 +192,17 @@ http-response?]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)]
                       [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 @defproc[(weather/72h [location string?]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)]
                       [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 @defproc[(weather/168h [location string?]
                        [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                        [#:lang lang string? (current-qweather-lang)]
                        [#:unit unit (or/c "m" "i") "m"])
-http-response?]
+http-response]
 )]
 
 @subsubsection{Disaster warning}
@@ -212,12 +212,12 @@ The official doc: @url{https://dev.qweather.com/docs/api/warning/}
 @defproc[(warning/now [location string?]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)])
-http-response?]
+http-response]
 
 @defproc[(warning/list
                       [#:range range (or/c "cn") (current-qweather-range)]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)])
-http-response?]
+http-response]
 
 
 @section{Change Logs}
