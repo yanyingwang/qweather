@@ -21,6 +21,7 @@ Racket wrapper of Qweather(和风天气) API.
 @subsection{Setup Qweather API key}
 @codeblock|{
 -> (current-qweather-key "your-qweather-app-key")
+-> (now)
 }|
 @subsection{Get the location id of 新郑 city}
 @codeblock|{
