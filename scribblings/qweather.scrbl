@@ -20,13 +20,13 @@ Racket wrapper of Qweather(和风天气) API.
 @section{Usage Example}
 @subsection{Setup Qweather API key}
 @codeblock|{
--> (current-qweather-key "your-qweather-app-key")
+> (current-qweather-key "your-qweather-app-key")
 }|
 @subsection{Get the location id of a city}
 @codeblock|{
--> (pretty-print
-     (http-response-body
-       (city/lookup "新郑")))
+> (pretty-print
+    (http-response-body
+      (city/lookup "新郑")))
 '#hasheq((code . "200")
          (location
           .
@@ -50,9 +50,9 @@ Racket wrapper of Qweather(和风天气) API.
 }|
 @subsection{Get the weather forecasting of a city}
 @codeblock|{
--> (pretty-print
-     (http-response-body
-       (weather/now "101180106")))
+> (pretty-print
+    (http-response-body
+      (weather/now "101180106")))
 '#hasheq((code . "200")
          (fxLink . "http://hfx.link/2qp1")
          (now
