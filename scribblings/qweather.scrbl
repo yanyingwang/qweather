@@ -15,7 +15,7 @@ Racket wrapper of Qweather(和风天气) API.
 @item{@smaller{Qweather's official terms explaination：@url{https://dev.qweather.com/docs/start/glossary/}}}
 @item{@smaller{Qweather's official API doc: @url{https://dev.qweather.com/docs/api/}}}
 ]
-@(table-of-contents)
+@;(table-of-contents)
 
 
 @section{Usage Example}
