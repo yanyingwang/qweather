@@ -1,6 +1,6 @@
 #lang scribble/manual
 @require[@for-label[qweather
-                    racket/base
+                    (except-in racket/base >)
                     racket/pretty
                     racket/contract
                     http-client]]
