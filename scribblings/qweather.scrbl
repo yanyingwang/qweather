@@ -100,7 +100,7 @@ For using a business version of Qweather account, you need to set this parameter
 )]{
 @itemlist[
 @item{Those parameters are used to controller the default values of procedures arguments described from @secref["wrapped-apis"].}
-@item{The available values of those parameters are very much dictated by the correspondingly available values of procedure arguments that specified at @secref["wrapped-apis"].}
+@item{The valid values of those parameters are very much dictated by the correspondingly available values of procedure arguments that specified at @secref["wrapped-apis"].}
 ]
 For example,
 @itemlist[
@@ -108,9 +108,9 @@ For example,
 @racket[(city/lookup "xinzheng" #:range "cn")] if I set parameter @linebreak[]
 @racket[(current-qweather-range "cn")].}
 @item{And for this case, @linebreak[]
-the avaiable values of @racket[current-qweather-range] should be @linebreak[]
+the valid values of @racket[current-qweather-range] should be @linebreak[]
 @litchar{world} and @litchar{cn} because @linebreak[]
-the available values of @racket[range] argument of @racket[city/lookup] is @linebreak[]
+the valid values of @racket[range] argument of @racket[city/lookup] is @linebreak[]
 @litchar{world} and @litchar{cn}.}
 ]
 }
