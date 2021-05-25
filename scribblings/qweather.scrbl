@@ -1,9 +1,11 @@
 #lang scribble/manual
 @require[@for-label[qweather
-                    (except-in racket/base >)
-                    racket/pretty
+                    racket/base
                     racket/contract
-                    http-client]]
+                    http-client]
+         scribble-rainbow-delimiters]
+
+@script/rainbow-delimiters*
 
 @title{qweather}
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
@@ -15,19 +17,18 @@ Racket wrapper of Qweather(和风天气) API.
 @item{@smaller{Qweather's official terms explaination：@url{https://dev.qweather.com/docs/start/glossary/}}}
 @item{@smaller{Qweather's official API doc: @url{https://dev.qweather.com/docs/api/}}}
 ]
-@;(table-of-contents)
 
+@(table-of-contents)
 
 @section{Usage Example}
 @subsection{Setup Qweather API key}
-@codeblock|{
-> (current-qweather-key "your-qweather-app-key")
-}|
+@racketinput[
+(current-qweather-key "your-qweather-app-key")
+]
 @subsection{Get the location id of a city}
-@codeblock|{
-> (pretty-print
-    (http-response-body
-      (city/lookup "新郑")))
+@racketinput[
+(http-response-body
+  (city/lookup "新郑"))
 '#hasheq((code . "200")
          (location
           .
@@ -48,12 +49,11 @@ Racket wrapper of Qweather(和风天气) API.
           .
           #hasheq((license . ("commercial license"))
                   (sources . ("qweather.com")))))
-}|
+]
 @subsection{Get the weather forecasting of a city}
-@codeblock|{
-> (pretty-print
-    (http-response-body
-      (weather/now "101180106")))
+@racketinput[
+(http-response-body
+  (weather/now "101180106"))
 '#hasheq((code . "200")
          (fxLink . "http://hfx.link/2qp1")
          (now
@@ -78,10 +78,9 @@ Racket wrapper of Qweather(和风天气) API.
           #hasheq((license . ("no commercial use"))
                   (sources . ("Weather China"))))
          (updateTime . "2021-02-27T18:26+08:00"))
-}|
+]
 
-
-@section{Reference}
+@section{API}
 @subsection{Parameters}
 @defparam[current-qweather-key v string? #:value ""]{
 This key will be automatically included in the requesting of Qweather's APIs, you can get the key through signuping Qweather website and creating an app for your account.
@@ -220,8 +219,3 @@ http-response]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)])
 http-response]
 
-
-@section{Change Logs}
-@itemlist[
-@item{}
-]
