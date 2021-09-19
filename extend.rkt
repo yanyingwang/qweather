@@ -9,6 +9,7 @@
          (file "forecast.rkt"))
 (provide qweather/24h/rainsnowy-ai)
 
+(require debug/repl)
 
 (define base-lst/24 '())
 (define lid "")
@@ -34,35 +35,49 @@
       (string-contains? str "雪")
       (string-contains? str "冰")))
 
-(define (roster) (take (lst/24) 20))
-(define (rainsnowy/index) (index-where (roster) rainsnowy/pred))
-(define (normal/content) (findf (lambda (e) (not (rainsnowy/pred e))) (roster)))
-
-(define (rainsnowy/content) (list-ref (roster) (rainsnowy/index)))
-(define (rainsnowy/content+1) (list-ref (roster) (add1 (rainsnowy/index))))
-(define (rainsnowy/content+2) (list-ref (roster) (add1 (add1 (rainsnowy/index)))))
-(define (rainsnowy/content+3) (list-ref (roster) (add1 (add1 (add1 (rainsnowy/index))))))
-
 ;; (define h (hours-between (now/moment) (car rainsnowy/content)))
 
 (define (starting-text)
-  (define nowa-weather
+  (define nowa-content
     (cons (now/moment)
           (hash-ref
            (hash-ref (http-response-body (weather/now lid #:lang "cn")) 'now)
            'text)))
   (define nowa-weather/time (car nowa-weather))
-  (define nowa-weather/state (cdr nowa-weather) )
-  (if (= (rainsnowy/index) 0)
-      (cond
-        [((string=? (cdr (rainsnowy/content))
+  (define nowa-weather/state (cdr nowa-weather))
+
+  (define (roster) (take (lst/24) 20))
+  (define (rainsnowy/index) (index-where (roster) rainsnowy/pred))
+  (define (normal/content) (findf (lambda (e) (not (rainsnowy/pred e))) (roster)))
+
+  (define (rainsnowy/content) (list-ref (roster) (rainsnowy/index)))
+  (define (rainsnowy/content+1) (list-ref (roster) (add1 (rainsnowy/index))))
+  (define (rainsnowy/content+2) (list-ref (roster) (add1 (add1 (rainsnowy/index)))))
+  (define (rainsnowy/content+3) (list-ref (roster) (add1 (add1 (add1 (rainsnowy/index))))))
+  (define tmptxt "")
+
+  (debug-repl)
+
+  (define (minutes-between (car nowa-content)
+                           (car (rainsnowy/content))))
+
+  (cond
+    [(and (rainsnowy/pred nowa-weather)
+          (not rainsnowy/index))
+     (set! @~a{@当前正在下@(cdr nowa-content)，不过雨在1小时内就会停，并且此后3小时内不会再下。})]
+    [(and (rainsnowy/pred nowa-weather)
+          (= 0 (rainsnowy/index))
+          (string=? (cdr (rainsnowy/content))
                     (cdr (nowa-weather))))
-         @~a{当前正在下(cdr rainsnowy/content)，}]
-        [(and (not (string=? (cdr (rainsnowy/content))
-                             (cdr (nowa-weather))))
-              (rainsnowy/pred (nowa-weather)))
-         @~a{当前正在下@(cdr rainsnowy/content)，但预计1小时内会转@(cdr (rainsnowy/content)),}])
-      @~a{当前正在下@(cdr (rainsnowy/content))，但预计@(->hours (car (normal/content)))点前会停，其后1小时内会再开始下@(cdr (rainsnowy/content))，}))
+     @~a{当前正在下(cdr rainsnowy/content)，}]
+    [(and (rainsnowy/pred nowa-weather)
+          (= 0 (rainsnowy/index))
+          (not (string=? (cdr (rainsnowy/content))
+                         (cdr (nowa-weather))))
+          (rainsnowy/pred (nowa-weather)))
+     @~a{当前正在下@(cdr rainsnowy/content)，但预计1小时内会转@(cdr (rainsnowy/content)),}]
+    [(and (not (= 0 (rainsnowy/index))))
+     @~a{当前正在下@(cdr (rainsnowy/content))，但预计@(->hours (car (normal/content)))点前会停，其后1小时内会再开始下@(cdr (rainsnowy/content))，}]))
 
 (define (afterward-text)
   (if (string=? (cdr (rainsnowy/content)) (cdr (rainsnowy/content+1)))
