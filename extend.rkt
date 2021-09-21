@@ -71,9 +71,9 @@
            (define weather-txt
              (if (severe-weather? curr-item)
                  (if (severe-weather? prev-item)
-                     @~a{会转成下@(first curr-item)并将持续约@(third curr-item)小时，}
-                     @~a{会开始下@(first curr-item)并将持续约@(third curr-item)小时，})
-                 @~a{@(car prev-item)会停止下约@(third curr-item)小时；}))
+                     @~a{会转成下@(first curr-item)并持续约@(third curr-item)小时，}
+                     @~a{会开始下约@(third curr-item)小时的@(first curr-item)，})
+                 @~a{@(car prev-item)会停约@(third curr-item)小时；}))
            (define new-result
              (cond
                [(= i 1)
