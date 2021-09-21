@@ -4,6 +4,7 @@
          racket/list
          racket/format
          gregor
+         timable/gregor
          http-client
          (file "private/params.rkt")
          (file "forecast.rkt"))
@@ -44,58 +45,65 @@
 (define (converting-step2 lst)
   (let loop ([lst lst]
              [prev-item '()]
-             [result ""]
+             [result #f]
              [i 0])
-    (cond [(and (= i 0)
-                (= (length lst) 1)
-                (severe-weather? (car lst)))
-           @~a{当前正在下@(first (car lst))并将持续下约(third (car lst)小时。)}]
-          [(and (= i 0)
-                (= (length lst) 1)
-                (not (severe-weather? (car lst))))
-           "24小时内无雨，请放心出行。"]
-          [(= (length lst) 0)
+    (cond [(= (length lst) 0)
            @~a{@|result|。}]
-          ;;;;;;;;
-          [(and (= i 0)
-                (severe-weather? (car lst)))
-           (loop (cdr lst) (car lst) @~a{当前正在下@(first (car lst))，但} (add1 i))]
-          [(and (= i 0)
-                (not (severe-weather? (car lst))))
-           (loop (cdr lst) (car lst) "" (add1 i))]
-          [(= i 1)
+          [(= i 0)
+           (define new-result
+             (cond
+               [(= (length lst) 1)
+                (if (severe-weather? (car lst))
+                    @~a{当前正在下@(first (car lst))并将持续下约(third (car lst)小时)}
+                    "24小时内无雨，请放心出行")]
+               [(> (length lst) 1)
+                (if (severe-weather? (car lst))
+                    @~a{当前正在下@(first (car lst))，但}
+                    "")]
+               [else (error "code shouldn't get here")]))
+           (loop (cdr lst) (car lst) new-result (add1 i))]
+          [(>= i 1)
            (define curr-item (car lst))
            (define curr-item/time (second curr-item))
-           (define curr-item/weather
-             (if (severe-weather? curr-item)
-                 @~a{下@(first curr-item)}
-                 @~a{转@(first curr-item)}))
            (define prev-item/time (second prev-item))
            (define gap-minutes (minutes-between prev-item/time curr-item/time))
-           (define time-text
+           (define gap-minutes/from-now-on (minutes-between (now/moment) curr-item/time))
+           (define weather-txt
+             (if (severe-weather? curr-item)
+                 (if (severe-weather? prev-item)
+                     @~a{会转成下@(first curr-item)并将持续约@(third curr-item)小时，}
+                     @~a{会开始下@(first curr-item)并将持续约@(third curr-item)小时，})
+                 @~a{@(car prev-item)会停止下约@(third curr-item)小时；}))
+           (define new-result
              (cond
-               [(< gap-minutes 60)
-                @~a{@|gap-minutes|分钟后}]
-               [(= (->day prev-item/time)
-                   (->day curr-item/time))
-                @~a{今天@(->hours curr-item/time)点}]
-               [(= (->day (+days prev-item/time 1))
-                   (->day curr-item/time))
-                @~a{明天@(->hours curr-item/time)点}]))
-           (loop (cdr lst)(car lst) @~a{@|result|预计@|time-text|开始@|curr-item/weather|并将持续约@(third curr-item)小时} (add1 i))]
-          [(> i 1)
-           (define prev-item/time (second prev-item))
-           (define curr-item (car lst))
-           (define curr-item/time (second curr-item))
-           (define time-text
-             (cond
-               [(= (->day prev-item/time)
-                   (->day curr-item/time))
-                @~a{@(->hours curr-item/time)点}]
-               [(= (->day (+days prev-item/time 1))
-                   (->day curr-item/time))
-                @~a{翌日@(->hours curr-item/time)点}]))
-           (loop (cdr lst) (car lst) @~a{@|result|，其后@|time-text|再转@(first curr-item)持续约@(third curr-item)小时} (add1 i))])))
+               [(= i 1)
+                (define time-txt
+                  (cond
+                    [(< gap-minutes/from-now-on 60)
+                     @~a{@|gap-minutes|分钟后}]
+                    [(moment<? curr-item/time
+                               (at-end/on-day (now/moment)))
+                     @~a{今天@(->hours curr-item/time)点}]
+                    [(moment>=? curr-item/time
+                                (at-end/on-day (now/moment)))
+                     @~a{明天@(->hours curr-item/time)点}]
+                    [(moment>=? curr-item/time
+                                (+days (at-end/on-day (now/moment)) 1))
+                     @~a{后天@(->hours curr-item/time)点}]
+                    [(moment>=? curr-item/time
+                                (+days (at-end/on-day (now/moment)) 2))
+                     @~a{大后天@(->hours curr-item/time)点}]
+                    [else
+                     @~a{@(->day curr-item/time)日@(->hours curr-item/time)点}]))
+                @~a{@|result|预计@|time-txt|@|weather-txt|}]
+               [(> i 1)
+                (define time-txt
+                  (if (moment<? curr-item/time (at-end/on-day prev-item/time))
+                      @~a{@(->hours curr-item/time)点}
+                      @~a{翌日@(->hours curr-item/time)点}))
+                @~a{@|result|其后@|time-txt|@|weather-txt|}]
+               [else (error "code shouldn't get here")]))
+           (loop (cdr lst)(car lst) new-result (add1 i))])))
 
 (define (weather/24h/severe-weather-ai lid)
   (define nowa
@@ -116,8 +124,9 @@
   (define roster2 (converting-step2 roster1))
   roster2)
 
-
- ;; (weather/24h/severe-weather-ai "101180106") ;郑州
- ;; (weather/24h/severe-weather-ai "101020100") ;上海
- ;; (weather/24h/severe-weather-ai "101230401") ;莆田
- ;; (weather/24h/severe-weather-ai "101070101") ;沈阳
+#|
+(weather/24h/severe-weather-ai "101180106") ;郑州
+(weather/24h/severe-weather-ai "101020100") ;上海
+(weather/24h/severe-weather-ai "101230401") ;莆田
+(weather/24h/severe-weather-ai "101070101") ;沈阳
+|#
