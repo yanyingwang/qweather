@@ -105,7 +105,7 @@
                [else (error "code shouldn't get here")]))
            (loop (cdr lst)(car lst) new-result (add1 i))])))
 
-(define (weather/24h/severe-weather-ai lid)
+(define (weather/AI/24h/severe-weather lid)
   (define nowa
     (list (hash-ref
            (hash-ref (http-response-body (weather/now lid #:lang "cn")) 'now)

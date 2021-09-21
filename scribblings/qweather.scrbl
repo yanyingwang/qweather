@@ -103,14 +103,18 @@ For using a business version of Qweather account, you need to set this parameter
 ]
 For example,
 @itemlist[
-@item{@racket[(city/lookup "xinzheng")] is same as @linebreak[]
+@item{
+@racket[(city/lookup "xinzheng")] is same as @linebreak[]
 @racket[(city/lookup "xinzheng" #:range "cn")] if I set parameter @linebreak[]
-@racket[(current-qweather-range "cn")].}
-@item{And for this case, @linebreak[]
+@racket[(current-qweather-range "cn")].
+}
+@item{
+And for this case, @linebreak[]
 the valid values of @racket[current-qweather-range] should be @linebreak[]
 @litchar{world} and @litchar{cn} because @linebreak[]
 the valid values of @racket[range] argument of @racket[city/lookup] is @linebreak[]
-@litchar{world} and @litchar{cn}.}
+@litchar{world} and @litchar{cn}.
+}
 ]
 }
 
@@ -219,3 +223,13 @@ http-response]
                       [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)])
 http-response]
 
+
+
+@subsubsection{AI}
+@defmodule[qweather/extend]
+This section extended Qweather API to AI functions, which will directly tell you if there is severe weathers in the next.
+@bold{This only support to put out the chinese currently.}
+
+@defproc[(weather/AI/24h/severe-weather [location string?]
+                      [#:lang lang string? (current-qweather-lang)])
+string?]
