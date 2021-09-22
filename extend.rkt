@@ -72,7 +72,7 @@
              (if (severe-weather? curr-item)
                  (if (severe-weather? prev-item)
                      @~a{会转成下@(first curr-item)并持续约@(third curr-item)小时，}
-                     @~a{会开始下约@(third curr-item)小时的@(first curr-item)，})
+                     @~a{会开始下@(first curr-item)约@(third curr-item)小时，})
                  @~a{@(car prev-item)会停约@(third curr-item)小时；}))
            (define new-result
              (cond
