@@ -48,7 +48,7 @@
              [result #f]
              [i 0])
     (cond [(= (length lst) 0)
-           @~a{@|result|。}]
+           (regexp-replace #rx"(；|，)$" (string-trim result) "。")]
           [(= i 0)
            (define new-result
              (cond
