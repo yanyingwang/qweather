@@ -28,12 +28,14 @@
 (require (file "private/params.rkt")
          (file "city.rkt")
          (file "forecast.rkt")
-         (file "warning.rkt"))
+         (file "warning.rkt")
+         (file "extend.rkt"))
 
 (provide (all-from-out (file "private/params.rkt")
                        (file "city.rkt")
                        (file "forecast.rkt")
-                       (file "warning.rkt")))
+                       (file "warning.rkt")
+                       (file "extend.rkt")))
 
 
 (module+ test
