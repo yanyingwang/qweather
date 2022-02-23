@@ -10,9 +10,6 @@
          (file "forecast.rkt"))
 (provide weather/24h/severe-weather-ai)
 
-;; (require debug/repl
-;;          racket/trace)
-
 
 (define (severe-weather? lst)
   (let ([str (car lst)])
@@ -55,7 +52,7 @@
                [(= (length lst) 1)
                 (if (severe-weather? (car lst))
                     @~a{当前正在下@(first (car lst))并将持续下约(third (car lst)小时)}
-                    "24小时内无异常天气，请放心出行")]
+                    "24小时内无异常天气，请放心出行。")]
                [(> (length lst) 1)
                 (if (severe-weather? (car lst))
                     @~a{当前正在下@(first (car lst))，但}
