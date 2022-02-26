@@ -52,7 +52,7 @@
                [(= (length lst) 1)
                 (if (severe-weather? (car lst))
                     @~a{当前正在下@(first (car lst))并将持续下约(third (car lst)小时)}
-                    "24小时内无雨雪天气。")]
+                    "24小时内无降水天气。")]
                [(> (length lst) 1)
                 (if (severe-weather? (car lst))
                     @~a{当前正在下@(first (car lst))，但}
