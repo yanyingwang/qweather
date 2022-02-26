@@ -230,6 +230,6 @@ http-response]
 This section extended Qweather API to AI functions, which will directly tell you if there is severe weathers in the next.
 @bold{This only support to put out the chinese currently.}
 
-@defproc[(weather/AI/24h/severe-weather [location string?]
+@defproc[(weather/24h/severe-weather-ai [location string?]
                       [#:lang lang string? (current-qweather-lang)])
 string?]
