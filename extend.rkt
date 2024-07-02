@@ -98,7 +98,7 @@
                   (if (moment<? curr-item/time (at-end/on-day prev-item/time))
                       @~a{@(->hours curr-item/time)点}
                       @~a{翌日@(->hours curr-item/time)点}))
-                @~a{@|result|其后@|time-txt|@|weather-txt|}]
+                @~a{@|result|到了@|time-txt|@|weather-txt|}]
                [else (error "code shouldn't get here")]))
            (loop (cdr lst)(car lst) new-result (add1 i))])))
 
