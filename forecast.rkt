@@ -1,6 +1,6 @@
 #lang at-exp racket/base
 
-(require http-client
+(require http-client gregor
          (file "private/params.rkt")
          (file "private/core.rkt"))
 (provide (all-defined-out))
@@ -67,6 +67,7 @@
                            'gzip gzip
                            'lang lang
                            'unit unit)))
+
 (define (weather/72h location
                      #:gzip [gzip (current-qweather-gzip)]
                      #:lang [lang (current-qweather-lang)]
@@ -87,3 +88,20 @@
                            'gzip gzip
                            'lang lang
                            'unit unit)))
+
+(define (weather/25h lid
+                     #:gzip [gzip (current-qweather-gzip)]
+                     #:lang [lang (current-qweather-lang)])
+  (define nowa
+    (list (hash-ref
+           (hash-ref (http-response-body (weather/now lid #:lang lang)) 'now)
+           'text)
+          (now)))
+  (define lst/24
+    (let* ([resp (hash-ref (http-response-body (weather/24h lid #:lang lang) )
+                           'hourly)]
+           [lst (for/list ([e resp])
+                  (list (hash-ref e 'text)
+                        (iso8601->datetime (hash-ref e 'fxTime))))])
+      (sort lst datetime<? #:key cadr)))
+  (list* nowa lst/24))

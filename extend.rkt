@@ -11,7 +11,6 @@
          (file "forecast.rkt"))
 (provide weather/24h/severe-weather-ai)
 
-
 (define (converting-step1 lst)
   (let loop ([lst lst]
              [item '()]
@@ -39,7 +38,7 @@
              [lst lst]
              [i 0])
     (cond
-      [(= (length lst) 0) '()]
+      [(empty? lst) lst]
       [(= i 0)
        (define ai-txt
          (cond
@@ -69,8 +68,8 @@
          (if (severe-weather? cur-item)
              (if (severe-weather? prv-item)
                  @~a{会转成下@|cur-item/s|并持续约@|cur-item/n|小时，}
-                 (if (> i 2)
-                     @~a{会继续下@|cur-item/s|约@|cur-item/n|小时，}
+                 (if (>= i 2)
+                     @~a{会重新下@|cur-item/s|约@|cur-item/n|小时，}
                      @~a{会开始下@|cur-item/s|约@|cur-item/n|小时，}))
              @~a{@|prv-item/s|会停；}))
        (define ai-txt
@@ -80,25 +79,13 @@
       )))
 
 (define (weather/24h/severe-weather-ai lid)
-  (define nowa
-    (list (hash-ref
-           (hash-ref (http-response-body (weather/now lid #:lang "cn")) 'now)
-           'text)
-          (now)))
-  (define lst/24
-    (let* ([resp (hash-ref (http-response-body (weather/24h lid #:lang "cn") )
-                           'hourly)]
-           [lst (for/list ([e resp])
-                  (list (hash-ref e 'text)
-                        (iso8601->datetime (hash-ref e 'fxTime))))])
-      (sort lst datetime<? #:key cadr)))
-  (define roster
-    (list* nowa lst/24))
+  (define roster (weather/25h lid))
   (define roster1 (converting-step1 roster))
   (define roster2 (converting-step2 roster1))
   (define roster3 (string-join roster2 ""))
   (define roster4 (regexp-replace #rx"(；|，)$" (string-trim roster3) "。"))
   roster4)
+
 
 #|
 (weather/24h/severe-weather-ai "101180106") ;郑州
