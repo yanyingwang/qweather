@@ -10,6 +10,7 @@
          (file "private/helpers.rkt")
          (file "forecast.rkt"))
 
+(provide weather/15d/severe-weather-ai)
 
 (define (weather/15d/severe-weather-ai lid)
   (define roster0
@@ -54,7 +55,7 @@
       [(not (empty? roster3a/x))
        (~a "有" (length roster3a/x) "天下雪")]
       ["无降水天气"]))
-  (define t2 "。")
+  (define t2 "，")
   (define t3 "未来7—14天")
   (define t4
     (cond

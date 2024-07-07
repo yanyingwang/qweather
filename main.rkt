@@ -29,13 +29,15 @@
          (file "city.rkt")
          (file "forecast.rkt")
          (file "warning.rkt")
-         (file "extend.rkt"))
+         (file "extend.rkt")
+         (file "ai-d.rkt"))
 
 (provide (all-from-out (file "private/params.rkt")
                        (file "city.rkt")
                        (file "forecast.rkt")
                        (file "warning.rkt")
-                       (file "extend.rkt")))
+                       (file "extend.rkt")
+                       (file "ai-d.rkt")))
 
 
 (module+ test
