@@ -1,4 +1,4 @@
-#lang racket/base
+#lang at-exp racket/base
 
 (require racket/string
          racket/list
@@ -12,19 +12,38 @@
 
 (provide weather/15d/severe-weather-ai)
 
+(define (zhuan ttd ttn)
+  (if (string=? ttd ttn)
+      ttd (~a ttd "转" ttn)))
+
 (define (weather/15d/severe-weather-ai lid)
   (define roster0
     (http-response-body (weather/15d lid)))
   (define roster1
     (cdr (hash-ref roster0 'daily)))
+
+  (define day1 (car roster1))
+  (define day2 (cadr roster1))
+  (define day3 (caddr roster1))
+  (define day1/x
+    @~a{今天@(zhuan (hash-ref day1 'textDay) (hash-ref day1 'textNight))，气温@(hash-ref day1 'tempMin)~@(hash-ref day1 'tempMax)度，@(hash-ref day1 'windDirDay)@(string-replace (hash-ref day1 'windScaleDay) "-" "~")级。})
+  (define day1/s
+    @~a{日出于@(hash-ref day1 'sunrise)，落于@(hash-ref day1 'sunset)。})
+  (define day1/m
+    @~a{夜晚的一弯@(hash-ref day1 'moonPhase)，出于@(hash-ref day1 'moonrise)，落于@(hash-ref day1 'moonset)。})
+  (define day2+3/x
+    @~a{明天@(zhuan (hash-ref day2 'textDay) (hash-ref day2 'textNight))，后天@(zhuan (hash-ref day3 'textDay) (hash-ref day3 'textNight))。})
+  (define d1
+    (string-append day1/x day1/s day1/m))
+  (define d2&3
+    @~a{明天@(zhuan (hash-ref day2 'textDay) (hash-ref day2 'textNight))，后天@(zhuan (hash-ref day3 'textDay) (hash-ref day3 'textNight))。})
+
   (define roster2
     (map (lambda (e)
            (define d (parse-date (hash-ref e 'fxDate) "yyy-MM-dd"))
            (define ttd (hash-ref e 'textDay) )
            (define ttn (hash-ref e 'textNight))
-           (define tt
-             (if (string=? ttd ttn)
-                 ttd (~a ttd "转" ttn)))
+           (define tt (zhuan ttd ttn))
            (cons d tt))
          roster1))
   (define roster3
@@ -69,5 +88,7 @@
        (~a "有" (length roster3/x) "天下雪")]
       ["无降水天气。"]))
   (define t5 "。")
-  (string-append t0 t1 t2 t3 t4 t5)
+  (define 7&14d (string-append t0 t1 t2 t3 t4 t5))
+
+  (string-append d1 d2&3 7&14d)
   )
