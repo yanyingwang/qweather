@@ -46,6 +46,10 @@
     (filter (lambda (e) (string=? "雨" (cdr e))) roster3b))
   (define roster3b/x
     (filter (lambda (e) (string=? "雪" (cdr e))) roster3b))
+  (define roster3/y
+    (filter (lambda (e) (string=? "雨" (cdr e))) roster3))
+  (define roster3/x
+    (filter (lambda (e) (string=? "雪" (cdr e))) roster3))
 
   (define t0 "未来7天")
   (define t1
@@ -56,13 +60,13 @@
        (~a "有" (length roster3a/x) "天下雪")]
       ["无降水天气"]))
   (define t2 "，")
-  (define t3 "未来7—14天")
+  (define t3 "未来14天")
   (define t4
     (cond
-      [(not (empty? roster3b/y))
-       (~a "有" (length roster3b/y) "天下雨")]
-      [(not (empty? roster3b/x))
-       (~a "有" (length roster3b/x) "天下雪")]
+      [(not (empty? roster3/y))
+       (~a "有" (length roster3/y) "天下雨")]
+      [(not (empty? roster3/x))
+       (~a "有" (length roster3/x) "天下雪")]
       ["无降水天气。"]))
   (define t5 "。")
   (string-append t0 t1 t2 t3 t4 t5)
