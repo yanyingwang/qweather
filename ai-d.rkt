@@ -4,7 +4,6 @@
          racket/list
          racket/format
          gregor
-         timable/gregor
          http-client
          (file "private/params.rkt")
          (file "private/helpers.rkt")
