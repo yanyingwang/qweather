@@ -9,13 +9,13 @@
          (file "private/helpers.rkt")
          (file "forecast.rkt"))
 
-(provide weather/15d/severe-weather-ai)
+(provide weather/15d/ai)
 
 (define (zhuan ttd ttn)
   (if (string=? ttd ttn)
       ttd (~a ttd "转" ttn)))
 
-(define (weather/15d/severe-weather-ai lid)
+(define (weather/15d/ai lid)
   (define roster0
     (http-response-body (weather/15d lid)))
   (define roster1
@@ -87,7 +87,8 @@
        (~a "有" (length roster3/x) "天下雪")]
       ["无降水天气。"]))
   (define t5 "。")
-  (define 7&14d (string-append t0 t1 t2 t3 t4 t5))
+  (define 7&14d
+    (string-append t0 t1 t2 t3 t4 t5))
 
   (string-append d1 d2&3 7&14d)
   )
