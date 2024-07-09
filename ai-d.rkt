@@ -9,7 +9,7 @@
          (file "private/helpers.rkt")
          (file "forecast.rkt"))
 
-(provide weather/15d/ai)
+(provide weather/15d/ai weather/15d/ai-parse)
 
 (define (zhuan ttd ttn)
   (if (string=? ttd ttn)
@@ -20,7 +20,10 @@
     (http-response-body (weather/15d lid)))
   (define roster1
     (cdr (hash-ref roster0 'daily)))
+  (weather/15d/ai-parse roster1)
+  )
 
+(define (weather/15d/ai-parse roster1)
   (define day1 (car roster1))
   (define day2 (cadr roster1))
   (define day3 (caddr roster1))
