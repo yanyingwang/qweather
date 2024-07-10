@@ -23,10 +23,10 @@
   (weather/15d/ai-parse roster1)
   )
 
-(define (weather/15d/ai-parse roster1)
-  (define day1 (car roster1))
-  (define day2 (cadr roster1))
-  (define day3 (caddr roster1))
+(define (weather/15d/ai-parse data)
+  (define day1 (car data))
+  (define day2 (cadr data))
+  (define day3 (caddr data))
   (define day1/x
     @~a{今天@(zhuan (hash-ref day1 'textDay) (hash-ref day1 'textNight))，气温@(hash-ref day1 'tempMin)~@(hash-ref day1 'tempMax)度，@(hash-ref day1 'windDirDay)@(string-replace (hash-ref day1 'windScaleDay) "-" "~")级。})
   (define day1/s
@@ -47,7 +47,7 @@
            (define ttn (hash-ref e 'textNight))
            (define tt (zhuan ttd ttn))
            (cons d tt))
-         roster1))
+         data))
   (define roster3
     (map (lambda (e)
            (cons (car e)

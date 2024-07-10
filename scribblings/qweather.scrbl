@@ -10,7 +10,6 @@
 @title{qweather}
 @author[@author+email["Yanying Wang" "yanyingwang1@gmail.com"]]
 @defmodule[qweather]
-@section-index["timable"]
 Racket wrapper of Qweather(和风天气) API.
 @itemlist[
 @item{@smaller{Qweather's official quick start guide: @url{https://dev.qweather.com/docs/start/}}}
