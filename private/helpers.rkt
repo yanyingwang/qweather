@@ -18,15 +18,15 @@
         (->day (today)))
      "今天"]
     [(= (->day m)
-        (+ 1 (->day (today))))
+        (->day (days-from-now 1)))
      "明天"]
     [(= (->day m)
-        (+ 2 (->day (today))))
+        (->day (days-from-now 2)))
      "后天"]
     [(= (->day m)
-        (+ 3 (->day (today))))
+        (->day (days-from-now 3)))
      "大后天"]
-    [else @~a{第@(->day m)天}]
+    [else @~a{@(->month m)月@(->day m)日}]
     )
   )
 
