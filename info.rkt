@@ -1,6 +1,6 @@
 #lang info
 (define collection "qweather")
-(define deps '("base" "at-exp-lib" "https://github.com/yanyingwang/http-client.git" "gregor"))
+(define deps '("base" "at-exp-lib" "https://github.com/yanyingwang/timable" "https://github.com/yanyingwang/http-client.git" "gregor"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib" "scribble-rainbow-delimiters"))
 (define scribblings '(("scribblings/qweather.scrbl" ())))
 (define pkg-desc "racket wrapper of qweather api")
