@@ -1,6 +1,6 @@
 #lang at-exp racket/base
 
-(require gregor racket/format racket/string)
+(require timable/gregor gregor racket/format racket/string)
 (provide (all-defined-out))
 
 
