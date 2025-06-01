@@ -19,7 +19,7 @@
   (define roster0
     (http-response-body (weather/15d lid)))
   (define roster1
-    (cdr (hash-ref roster0 'daily)))
+    (hash-ref roster0 'daily))
   (weather/15d/ai-parse roster1)
   )
 
