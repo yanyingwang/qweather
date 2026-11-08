@@ -20,9 +20,11 @@ Racket wrapper of Qweather(和风天气) API.
 @(table-of-contents)
 
 @section{Usage Example}
-@subsection{Setup Qweather API key}
+@subsection{Setup Qweather API key and API Host}
+
 @racketinput[
 (current-qweather-key "your-qweather-app-key")
+(current-qweather-domain "your-qweather-API-domain")
 ]
 @subsection{Get the location id of a city}
 @racketinput[
@@ -82,37 +84,37 @@ Racket wrapper of Qweather(和风天气) API.
 @section{API}
 @subsection{Parameters}
 @defparam[current-qweather-key v string? #:value ""]{
-This key will be automatically included in the requesting of Qweather's APIs, you can get the key through signuping Qweather website and creating an app for your account.
+This key will be automatically included when requesting Qweather's APIs. You can see your key after logining Qweather website and creating an app for your account.
 }
 
 @defparam[current-qweather-domain v string? #:value "devapi.qweather.com"]{
-For using a business version of Qweather account, you need to set this parameter to @litchar{api.qweather.com}.
+Notice: Public API domain had be terminated: @url{https://blog.qweather.com/announce/public-api-domain-change-to-api-host/}. You will have to use your own API domain for the API request.
 }
 
 
 @deftogether[(
 @defparam[current-qweather-range v string? #:value "world"]
 @defparam[current-qweather-number v number? #:value 10]
-@defparam[current-qweather-gzip v string? #:value "y"]
 @defparam[current-qweather-lang v string? #:value "en"]
+@defparam[current-qweather-localtime v boolean? #:value #f]
 )]{
 @itemlist[
-@item{Those parameters are used to controller the default values of procedures arguments described from @secref["wrapped-apis"].}
-@item{The valid values of those parameters are very much dictated by the correspondingly available values of procedure arguments that specified at @secref["wrapped-apis"].}
+@item{Those parameters are used to control the default values of procedure's arguments, which are described at @secref["wrapped-apis"].}
+@item{The valid values of those parameters are very much dictated by the correspondingly available values of procedure's arguments that are specified at @secref["wrapped-apis"].}
 ]
 For example,
 @itemlist[
 @item{
 @racket[(city/lookup "xinzheng")] is same as @linebreak[]
-@racket[(city/lookup "xinzheng" #:range "cn")] if I set parameter @linebreak[]
+@racket[(city/lookup "xinzheng" #:range "cn")] if I set parameter with below code: @linebreak[]
 @racket[(current-qweather-range "cn")].
 }
 @item{
-And for this case, @linebreak[]
+And in this case, @linebreak[]
 the valid values of @racket[current-qweather-range] should be @linebreak[]
-@litchar{world} and @litchar{cn} because @linebreak[]
-the valid values of @racket[range] argument of @racket[city/lookup] is @linebreak[]
-@litchar{world} and @litchar{cn}.
+@litchar{world} and @litchar{cn} @linebreak[]
+because the valid values of @racket[range], as an argument of @racket[city/lookup], @linebreak[]
+are @litchar{world} and @litchar{cn}.
 }
 ]
 }
@@ -120,20 +122,18 @@ the valid values of @racket[range] argument of @racket[city/lookup] is @linebrea
 @subsection[#:tag "wrapped-apis"]{Wrapped APIs}
 @subsubsection{Searching cities}
 @defmodule[qweather/city]
-The official doc: @url{https://dev.qweather.com/docs/api/geo/}
+The official doc: @url{https://dev.qweather.com/docs/api/geoapi/}
 
 @defproc[(city/lookup [location string?]
                       [#:adm adm string? ""]
                       [#:range range (or/c "world" "cn") (current-qweather-range)]
                       [#:number number number? (current-qweather-number)]
-                      [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)])
 http-response]
 
 
 @defproc[(city/top [#:range range (or/c "world" "cn") (current-qweather-range)]
                    [#:number number number? (current-qweather-number)]
-                   [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                    [#:lang lang string? (current-qweather-lang)])
 http-response]
 
@@ -142,7 +142,6 @@ http-response]
                       [#:type type string? "scenic"]
                       [#:city city string? ""]
                       [#:number number number? (current-qweather-number)]
-                      [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                       [#:lang lang string? (current-qweather-lang)])
 http-response]
 
@@ -151,7 +150,6 @@ http-response]
                     [#:type type string? "scenic"]
                     [#:radius radius number? 10]
                     [#:number number number? (current-qweather-number)]
-                    [#:gzip gzip (or/c "y" "n") (current-qweather-gzip)]
                     [#:lang lang string? (current-qweather-lang)])
 http-response]
 
