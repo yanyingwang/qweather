@@ -65,7 +65,7 @@
       (string-append (->cn-day-text dt) (->cn-hour-text dt)))
   )
 
-(define (->weather-v7 entry)
+(define (daily-entry->weather-v7 entry)
   (hash 'fxDate (hash-ref entry 'forecastStartTime)
         'sunrise (hash-ref (hash-ref entry 'astro) 'sunrise)
         'sunset	(hash-ref (hash-ref entry 'astro) 'sunset)
@@ -85,6 +85,17 @@
         'windScaleNight	(hash-ref (hash-ref (hash-ref entry 'nighttime) 'wind) 'scale)
         'humidityDay (hash-ref (hash-ref entry 'daytime) 'humidity)
         'humidityNight (hash-ref (hash-ref entry 'nighttime) 'humidity)
+        )
+  )
+
+(define (hourly-entry->weather-v7 entry)
+  (hash 'fxTime (hash-ref entry 'forecastTime)
+        'temp (hash-ref (hash-ref entry 'temperature) 'value)
+        'text (hash-ref (hash-ref entry 'condition) 'text)
+        'windDir (->windDirCn (hash-ref (hash-ref (hash-ref entry 'wind) 'direction) 'compass))
+        'windDirEn (hash-ref (hash-ref (hash-ref entry 'wind) 'direction) 'compass)
+        'windScale (hash-ref (hash-ref entry 'wind) 'scale)
+        'humidity (hash-ref entry 'humidity)
         )
   )
 
