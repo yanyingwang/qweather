@@ -64,3 +64,58 @@
       @~a{@(minutes-between (now) dt)分钟后}
       (string-append (->cn-day-text dt) (->cn-hour-text dt)))
   )
+
+(define (->weather-v7 entry)
+  (hash 'fxDate (hash-ref entry 'forecastStartTime)
+        'sunrise (hash-ref (hash-ref entry 'astro) 'sunrise)
+        'sunset	(hash-ref (hash-ref entry 'astro) 'sunset)
+        'moonrise (hash-ref (hash-ref entry 'astro) 'moonrise)
+        'moonset (hash-ref (hash-ref entry 'astro) 'moonset)
+        'moonPhaseEn (hash-ref (hash-ref entry 'astro) 'moonPhase)
+        'moonPhase (->moonPhaseCn (hash-ref (hash-ref entry 'astro) 'moonPhase))
+        'tempMax (hash-ref (hash-ref entry 'temperatureMax) 'value)
+        'tempMin (hash-ref (hash-ref entry 'temperatureMin) 'value)
+        'textDay (hash-ref (hash-ref (hash-ref entry 'daytime) 'condition) 'text)
+        'textNight (hash-ref (hash-ref (hash-ref entry 'nighttime) 'condition) 'text)
+        'windDirDayEn (hash-ref (hash-ref (hash-ref (hash-ref entry 'daytime) 'wind) 'direction) 'compass)
+        'windDirDay	(->windDirCn (hash-ref (hash-ref (hash-ref (hash-ref entry 'daytime) 'wind) 'direction) 'compass))
+        'windScaleDay	(hash-ref (hash-ref (hash-ref entry 'daytime) 'wind) 'scale)
+        'windDirNightEn (hash-ref (hash-ref (hash-ref (hash-ref entry 'nighttime) 'wind) 'direction) 'compass)
+        'windDirNight	(->windDirCn (hash-ref (hash-ref (hash-ref (hash-ref entry 'nighttime) 'wind) 'direction) 'compass))
+        'windScaleNight	(hash-ref (hash-ref (hash-ref entry 'nighttime) 'wind) 'scale)
+        'humidityDay (hash-ref (hash-ref entry 'daytime) 'humidity)
+        'humidityNight (hash-ref (hash-ref entry 'nighttime) 'humidity)
+        )
+  )
+
+(define (->moonPhaseCn txt)
+  (hash-ref (hash "new-moon" "新月"
+                  "waxing-crescent" "蛾眉月"
+                  "first-quarter" "上弦月"
+                  "waxing-gibbous" "盈凸月"
+                  "full-moon" "满月"
+                  "waning-gibbous" "亏凸月"
+                  "last-quarter" "下弦月"
+                  "waning-crescent" "残月") txt))
+
+
+(define (->windDirCn txt)
+  (hash-ref (hash "n" "北风"
+                  "nne" "东北偏北风"
+                  "ne" "东北风"
+                  "ene" "东北偏东风"
+                  "e" "东风"
+                  "ese" "东南偏东风"
+                  "se" "东南风"
+                  "sse" "东南偏南风"
+                  "s" "南风"
+                  "ssw" "西南偏南风"
+                  "sw" "西南风"
+                  "wsw" "西南偏西风"
+                  "w" "西风"
+                  "wnw" "西北偏西风"
+                  "nw" "西北风"
+                  "nnw" "西北偏北风"
+                  "none" "无持续风向"
+                  "vrb" "风向变化不定"
+                  ) txt))
