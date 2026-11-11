@@ -4,6 +4,17 @@
 (provide (all-defined-out))
 
 
+(define (zhuan ttd ttn)
+  (if (string=? ttd ttn)
+      ttd (~a ttd "转" ttn)))
+
+(define (simplify-entry ent)
+  (list (hash-ref ent 'text)
+        (iso8601->datetime (hash-ref ent 'fxTime))))
+
+(define (sort-simplified-entries entries)
+  (sort entries datetime<? #:key cadr))
+
 (define (severe-weather? i)
   (severe-weather-str? (car i)))
 (define (severe-weather-str? str)
