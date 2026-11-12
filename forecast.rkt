@@ -6,13 +6,7 @@
          (file "private/core.rkt"))
 (provide (all-defined-out))
 
-(define (weather/current latitude longitude
-                 #:localtime [localtime (current-qweather-localtime)]
-                 #:lang [lang (current-qweather-lang)])
-  (http-get (api-qweather)
-            #:path (string-join `("current" ,latitude ,longitude) "/")
-            #:data (hasheq 'localTime localtime
-                           'lang lang)))
+
 (define (weather/current latitude longitude
                  #:localtime [localtime (current-qweather-localtime)]
                  #:lang [lang (current-qweather-lang)])
@@ -37,4 +31,12 @@
             #:path (string-join `("hourly" ,latitude ,longitude) "/")
             #:data (hasheq 'hours hours
                            'localTime localtime
+                           'lang lang)))
+
+(define (weatheralert/current latitude longitude
+                 #:localtime [localtime (current-qweather-localtime)]
+                 #:lang [lang (current-qweather-lang)])
+  (http-get (api-qweatheralert)
+            #:path (string-join `("current" ,latitude ,longitude) "/")
+            #:data (hasheq 'localTime localtime
                            'lang lang)))
