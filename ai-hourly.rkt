@@ -8,31 +8,9 @@
          (file "private/params.rkt")
          (file "private/helpers.rkt")
          (file "forecast.rkt"))
-(provide weather/24h/severe-weather-ai)
+(provide ai-says/weather/24h)
 
-(define (converting-step1 lst)
-  (let loop ([lst lst]
-             [item '()]
-             [result '()]
-             [i 0])
-    (cond
-      [(and (empty? lst)
-            (not (empty? item)))
-       (define result-item (append item (list i)))
-       (append result (list result-item))]
-      [(empty? lst) result]
-      [(empty? item)
-       (loop (cdr lst) (append item (car lst)) result (add1 i))]
-      [(or (and (not (severe-weather? item))
-                (not (severe-weather? (car lst))))
-           (and (string=? (car item)
-                          (caar lst))))
-       (loop (cdr lst) item result (add1 i))] ;; add count of item: (add1 i)
-      [else
-       (define result-item (append item (list i)))
-       (loop lst '() (append result (list result-item)) 0)]))) ;; append i to item and then move item to result and reset i to 0
-
-(define (converting-step2 lst)
+(define (converting-step3 lst)
   (let loop ([prv-item '()]
              [lst lst]
              [i 0])
@@ -77,13 +55,45 @@
              (loop (car lst) (cdr lst) (add1 i)))]
       )))
 
-(define (weather/24h/severe-weather-ai lid)
-  (define roster (weather/25h lid))
+(define (converting-step2 lst)
+  (let loop ([lst lst]
+             [item '()]
+             [result '()]
+             [i 0])
+    (cond
+      [(and (empty? lst)
+            (not (empty? item)))
+       (define result-item (append item (list i)))
+       (append result (list result-item))]
+      [(empty? lst) result]
+      [(empty? item)
+       (loop (cdr lst) (append item (car lst)) result (add1 i))]
+      [(or (and (not (severe-weather? item))
+                (not (severe-weather? (car lst))))
+           (and (string=? (car item)
+                          (caar lst))))
+       (loop (cdr lst) item result (add1 i))] ;; add count of item: (add1 i)
+      [else
+       (define result-item (append item (list i)))
+       (loop lst '() (append result (list result-item)) 0)]))) ;; append i to item and then move item to result and reset i to 0
+
+
+(define (converting-step1 lst)
+  (define a
+    (map hourly-entry->weather-v7 lst))
+  (define b
+    (map simplify-entry a))
+  (sort-simplified-entries b))
+
+(define (ai-says/weather/24h lat lon)
+  (define roster
+    (hash-ref (http-response-body (weather/hourly lat lon 25)) 'hours))
   (define roster1 (converting-step1 roster))
   (define roster2 (converting-step2 roster1))
-  (define roster3 (string-join roster2 ""))
-  (define roster4 (regexp-replace #rx"(；|，)$" (string-trim roster3) "。"))
-  roster4)
+  (define roster3 (converting-step3 roster2))
+  (define roster4 (string-join roster3 ""))
+  (define roster5 (regexp-replace #rx"(；|，)$" (string-trim roster4) "。"))
+  roster5)
 
 
 #|

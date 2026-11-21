@@ -9,26 +9,22 @@
          (file "private/helpers.rkt")
          (file "forecast.rkt"))
 
-(provide weather/15d/ai weather/15d/ai-parse)
+(provide ai-says/weather/10d ai-parse/daily-weather)
 
-(define (zhuan ttd ttn)
-  (if (string=? ttd ttn)
-      ttd (~a ttd "转" ttn)))
-
-(define (weather/15d/ai lid)
+(define (ai-says/weather/10d lat lon)
   (define roster0
-    (http-response-body (weather/15d lid)))
+    (http-response-body (weather/daily lat lon 10)))
   (define roster1
-    (hash-ref roster0 'daily))
-  (weather/15d/ai-parse roster1)
+    (map daily-entry->weather-v7 (hash-ref roster0 'days)))
+  (ai-parse/daily-weather roster1)
   )
 
-(define (weather/15d/ai-parse data)
+(define (ai-parse/daily-weather data)
   (define day1 (car data))
   (define day2 (cadr data))
   (define day3 (caddr data))
   (define day1/x
-    @~a{今天@(zhuan (hash-ref day1 'textDay) (hash-ref day1 'textNight))，气温@(hash-ref day1 'tempMin)~@(hash-ref day1 'tempMax)度，@(hash-ref day1 'windDirDay)@(string-replace (hash-ref day1 'windScaleDay) "-" "~")级。})
+    @~a{今天@(zhuan (hash-ref day1 'textDay) (hash-ref day1 'textNight))，气温@(hash-ref day1 'tempMin)~@(hash-ref day1 'tempMax)度，@(hash-ref day1 'windDirDay)@(hash-ref day1 'windScaleDay)级。})
   (define day1/s
     @~a{日出于@(hash-ref day1 'sunrise)，落于@(hash-ref day1 'sunset)。})
   (define day1/m
@@ -42,7 +38,7 @@
 
   (define roster2
     (map (lambda (e)
-           (define d (parse-date (hash-ref e 'fxDate) "yyy-MM-dd"))
+           (define d (iso8601->date (hash-ref e 'fxDate)))
            (define ttd (hash-ref e 'textDay) )
            (define ttn (hash-ref e 'textNight))
            (define tt (zhuan ttd ttn))
@@ -81,7 +77,7 @@
        (~a "有" (length roster3a/x) "天下雪")]
       ["无降水天气"]))
   (define t2 "，")
-  (define t3 "未来14天")
+  (define t3 (~a "未来" (length data) "天"))
   (define t4
     (cond
       [(not (empty? roster3/y))
@@ -90,8 +86,8 @@
        (~a "有" (length roster3/x) "天下雪")]
       ["无降水天气。"]))
   (define t5 "。")
-  (define 7&14d
+  (define 7&10d
     (string-append t0 t1 t2 t3 t4 t5))
 
-  (string-append d1 d2&3 7&14d)
+  (string-append d1 d2&3 7&10d)
   )
